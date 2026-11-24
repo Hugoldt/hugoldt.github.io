@@ -271,8 +271,8 @@ function projectArt(kind){
   }
   return c.toDataURL('image/jpeg', .86);
 }
-// Profil affiché : lien normal = général · ...#retail = poste IT Retail · ...#cyber = cybersécurité
-const PROFILE = location.hash === '#retail' ? 'retail' : location.hash === '#cyber' ? 'cyber' : 'general';
+// Profil affiché : lien normal = général · ...#retail = poste IT Retail · ...#cyber = cybersécurité · ...#pilotage = suivi et automatisation de processus
+const PROFILE = ({'#retail':'retail','#cyber':'cyber','#pilotage':'pilotage'})[location.hash] || 'general';
 const P = {
   general: { headline:'Gestion de projet IT & cybersécurité', cvs:['projet','cyber'],
     looking:"Je cherche une alternance de 30 mois à partir de janvier 2027, en gestion de projet IT ou en cybersécurité.",
@@ -286,9 +286,16 @@ const P = {
     looking:"Je cherche une alternance de 30 mois à partir de janvier 2027 en cybersécurité, au service de la sécurité des systèmes d'information.",
     intro:"Pendant mon stage au Ministère de l'Intérieur (DTNUM), j'ai travaillé sur la sécurité et la performance d'applications sensibles : un test d'intrusion web, des campagnes de tests de charge, dont une sur l'application de vote des élections municipales, et des audits d'accessibilité. J'y ai appris la rigueur, la discrétion qu'impose ce type d'environnement, et l'importance d'expliquer clairement ses résultats aux équipes.",
     motiv:"Ce qui me motive : la cybersécurité, la souveraineté numérique, et piloter des projets de sécurité de bout en bout, de la technique jusqu'à l'équipe. À côté, je monte mes propres projets, comme mon studio de motion design Hollis Motion." },
+  pilotage: { headline:'Suivi, pilotage & automatisation de processus', cvs:['projet'],
+    looking:"Je cherche une alternance de 30 mois à partir de janvier 2027 pour suivre et piloter un processus de bout en bout, et le rendre plus simple grâce à l'automatisation et aux outils de l'IA. Je prépare un Master of Science (Bac+5).",
+    intro:"Pendant mon stage de quatre mois au Ministère de l'Intérieur (DTNUM), j'ai suivi des missions de bout en bout, du cadrage jusqu'à la remise du rapport, en lien avec plusieurs équipes. J'analysais des indicateurs, je vérifiais que les résultats correspondaient à ce qui était attendu, puis je restituais mes constats à des interlocuteurs pas toujours techniques. Un de mes diagnostics a conduit au redimensionnement d'un serveur, dont j'ai ensuite contrôlé les résultats après mise en production.",
+    motiv:"Ce qui me motive : prendre un suivi fait à la main, le comprendre étape par étape, puis le fiabiliser et l'automatiser. Ma démarche : d'abord bien comprendre chaque échange, puis construire un tableau de suivi clair, ajouter des contrôles automatiques des écarts, et enfin des outils qui font gagner du temps aux équipes. J'utilise les outils de l'IA au quotidien pour ce genre d'automatisation. Je suis autonome, organisé et rigoureux, avec un bon esprit d'analyse, et j'aime travailler avec des équipes différentes." },
 }[PROFILE];
 // Toutes les compétences, dans chaque version : seul l'ordre change selon le poste visé
 const ALL_SKILLS = {
+  pilotage: ['Suivi et pilotage','Suivi de processus de bout en bout, tableaux de suivi, contrôle et rapprochement de données, KPI, tableaux de bord, reporting, comptes rendus'],
+  ia: ['Automatisation et IA','Outils de l’IA générative (ChatGPT, Claude, Claude Code, Perplexity), agents IA, automatisation de tâches répétitives, veille IA'],
+  savoir: ['Savoir-être','Autonomie, sens de l’organisation, esprit d’analyse, rigueur, implication, sens de l’écoute, coopération transversale, travail en équipe'],
   projet: ['Gestion de projet','Recueil des besoins, spécifications fonctionnelles, cadrage, planning, réunions de suivi, tests fonctionnels et recette, support et qualification d’incidents, documentation, accompagnement au changement, Agile'],
   cyber: ['Cybersécurité','Burp Suite, sqlmap, Kali Linux, Metasploit, en-têtes de sécurité HTTP'],
   perf: ['Performance et conformité','LoadRunner, Dynatrace, RGAA 4.1, RGPD'],
@@ -298,9 +305,10 @@ const ALL_SKILLS = {
   langues: ['Langues','Français (natif), anglais professionnel (TOEIC 850)'],
 };
 const SKILLS = {
-  general: ['projet','cyber','perf','dev','data','outils','langues'],
-  retail: ['projet','data','outils','perf','dev','cyber','langues'],
-  cyber: ['cyber','perf','projet','dev','data','outils','langues'],
+  general: ['projet','cyber','perf','pilotage','ia','dev','data','outils','savoir','langues'],
+  retail: ['projet','data','outils','pilotage','ia','perf','dev','cyber','savoir','langues'],
+  cyber: ['cyber','perf','projet','dev','data','ia','pilotage','outils','savoir','langues'],
+  pilotage: ['pilotage','ia','outils','data','projet','savoir','perf','dev','cyber','langues'],
 }[PROFILE].map(k => ALL_SKILLS[k]);
 const DTNUM_POINTS = {
   cyber: [
@@ -315,15 +323,23 @@ const DTNUM_POINTS = {
     "Tests et recette : scripting de scénarios sous LoadRunner VuGen et 2 campagnes de tests, dont une sur l'application de vote des élections municipales.",
     "Audits et documentation : appui aux audits RGAA 4.1 (106 critères) et participation à un test d'intrusion web, avec rédaction des constats et des recommandations."],
 };
+DTNUM_POINTS.pilotage = [
+  "Suivi et pilotage de missions : missions menées de bout en bout, du cadrage (périmètre, planning) à la livraison du rapport, en lien avec les équipes projet et techniques.",
+  "Analyse et contrôle : indicateurs Dynatrace (temps de réponse, CPU, RAM), diagnostic d'une saturation ayant conduit au redimensionnement du serveur, puis vérification des résultats après mise en production.",
+  "Tests et recette : 2 campagnes de tests de charge sous LoadRunner VuGen, dont une sur l'application de vote des élections municipales.",
+  "Documentation et reporting : appui aux audits RGAA 4.1 (106 critères), rédaction des constats et restitution aux parties prenantes.",
+  "Sécurité applicative : participation à un test d'intrusion web (Burp Suite, sqlmap) et observation d'un audit de configuration serveur."];
 DTNUM_POINTS.general = [DTNUM_POINTS.retail[0], DTNUM_POINTS.retail[1], DTNUM_POINTS.retail[2], "Sécurité applicative : participation à un test d'intrusion web sous Burp Suite (énumération de comptes, contournement de filtre d'upload, injections SQL avec sqlmap).", DTNUM_POINTS.cyber[3]];
 const EXPERIENCES = [
   { role:'Stagiaire Performance & Sécurité applicative', org:"Ministère de l'Intérieur, DTNUM (Bureau de la performance et de la sécurité applicative), Paris", date:'Mars 2026 – Juin 2026', points:DTNUM_POINTS[PROFILE] },
   { role:'Équipier polyvalent', org:"McDonald's, Charenton-le-Pont", date:'Déc. 2025 – Avr. 2026', points:[ PROFILE === 'cyber'
     ? "Accueil, encaissement et préparation en cuisine, travail en équipe sous forte affluence."
+    : PROFILE === 'pilotage'
+    ? "Rigueur et procédures : relation client et encaissement, travail en équipe sous forte affluence, respect strict des procédures qualité."
     : "Point de vente : accueil et relation client, encaissement et utilisation des outils de caisse, travail en équipe sous forte affluence."] },
 ];
 const EDUCATION = [
-  { role:'Master of Science Business & Technology Manager', org:'EPITECH, Paris', date:'2024 – 2029' },
+  { role: PROFILE === 'pilotage' ? 'Master of Science Business & Technology Manager (Bac+5)' : 'Master of Science Business & Technology Manager', org: PROFILE === 'pilotage' ? 'EPITECH, Paris · management de projet IT, systèmes d’information, data, IA, formation RGPD' : 'EPITECH, Paris', date:'2024 – 2029' },
   { role:'Baccalauréat général, spécialités Maths, Physique-Chimie, SVT', org:'Lycée Eugène Delacroix', date:'2023' },
 ];
 const HEADLINE = P.headline;
@@ -898,7 +914,7 @@ function view(k, pi){
     <div class="osrow">${p.links.map(([a,h],i) => `<a class="osb ${i ? '' : 'dark'}" href="${h}" target="_blank" rel="noopener">${a} ↗</a>`).join('')}</div></div>`; }
   else if (k === 'cv') osMain.innerHTML = `<div class="cvhead"><div><h1>${CONFIG.fullName}</h1><p class="lead" style="margin-bottom:6px">${HEADLINE}</p><p class="cvmeta">Île-de-France · permis B</p></div>
       <div class="osrow">${cvButtons(true)}</div></div>
-    <div class="cvsec"><h3>Profil</h3><p class="cvp">Étudiant en 3e année à Epitech. ${LOOKING} ${P.intro}</p></div>
+    <div class="cvsec"><h3>Profil</h3><p class="cvp">${PROFILE === 'pilotage' ? 'Étudiant à Epitech.' : 'Étudiant en 3e année à Epitech.'} ${LOOKING} ${P.intro}</p></div>
     <div class="cvsec"><h3>Expérience</h3>${EXPERIENCES.map(e => `<div class="cvitem"><div class="top">${e.role}<span>${e.date}</span></div><div class="org">${e.org}</div><ul>${e.points.map(p => `<li>${p}</li>`).join('')}</ul></div>`).join('')}</div>
     <div class="cvsec"><h3>Projets</h3>${PROJECTS.map((p,i) => `<div class="cvitem"><div class="top"><button class="cvlink" type="button" data-p="${i}">${p.title} →</button><span>${p.year}</span></div><div class="org">${p.kind}</div><ul><li>${p.text}</li></ul></div>`).join('')}</div>
     <div class="cvsec"><h3>Formation</h3>${EDUCATION.map(e => `<div class="cvitem"><div class="top">${e.role}<span>${e.date}</span></div><div class="org">${e.org}</div></div>`).join('')}</div>
